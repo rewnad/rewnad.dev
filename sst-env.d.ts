@@ -8,6 +8,10 @@ declare module "sst" {
     "Bucket": {
       "type": "sst.cloudflare.Bucket"
     }
+    "OpenRouterApiKey": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "Web": {
       "type": "sst.cloudflare.Astro"
       "url": string

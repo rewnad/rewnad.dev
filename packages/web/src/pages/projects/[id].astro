@@ -1,8 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import ChatWindow from '../../components/ChatWindow.astro';
-import ChatMessage from '../../components/ChatMessage.astro';
-import ChatInput from '../../components/ChatInput.astro';
+import Chat from '../../components/Chat.jsx';
 
 const projects = [
   {
@@ -35,12 +33,7 @@ const isAiChat = currentProject?.id === 'ai-chat';
 
 <Layout>
   {isAiChat ? (
-    <ChatWindow>
-      <div slot="messages">
-        <!-- Messages will be dynamically added here -->
-      </div>
-      <ChatInput slot="input" />
-    </ChatWindow>
+    <Chat client:load />
   ) : (
     <main>
       <div class="container">
