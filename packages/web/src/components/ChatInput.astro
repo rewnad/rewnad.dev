@@ -1,0 +1,145 @@
+---
+export interface Props {
+  placeholder?: string;
+}
+
+const { placeholder = "Type your message..." } = Astro.props;
+---
+
+<div class="chat-input">
+  <div class="input-wrapper">
+    <button class="attach-btn" aria-label="Attach file">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10.5 4.5L5.5 9.5C4.67157 10.3284 4.67157 11.6716 5.5 12.5C6.32843 13.3284 7.67157 13.3284 8.5 12.5L13.5 7.5C14.8807 6.11929 14.8807 3.88071 13.5 2.5C12.1193 1.11929 9.88071 1.11929 8.5 2.5L3.5 7.5C1.567 9.433 1.567 12.567 3.5 14.5C5.433 16.433 8.567 16.433 10.5 14.5L15.5 9.5" 
+              stroke="currentColor" 
+              stroke-width="1.5" 
+              stroke-linecap="round" 
+              stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <textarea 
+      class="input-field" 
+      placeholder={placeholder}
+      rows="1"
+    ></textarea>
+    <button class="send-btn" aria-label="Send message">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18 10L2 2L6 10L2 18L18 10Z" 
+              stroke="currentColor" 
+              stroke-width="1.5" 
+              stroke-linecap="round" 
+              stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<style>
+  .chat-input {
+    padding: 16px 20px;
+    background: #ffffff;
+  }
+
+  .input-wrapper {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 8px;
+    transition: border-color 0.2s;
+  }
+
+  .input-wrapper:focus-within {
+    border-color: #9ca3af;
+  }
+
+  .attach-btn,
+  .send-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    color: #6b7280;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .attach-btn:hover,
+  .send-btn:hover {
+    background: #e5e7eb;
+    color: #374151;
+  }
+
+  .send-btn {
+    color: #9ca3af;
+  }
+
+  .send-btn:hover {
+    color: #3b82f6;
+    background: #dbeafe;
+  }
+
+  .input-field {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #111827;
+    resize: none;
+    outline: none;
+    padding: 4px 8px;
+    min-height: 24px;
+    max-height: 120px;
+    font-family: inherit;
+  }
+
+  .input-field::placeholder {
+    color: #9ca3af;
+  }
+
+  .input-field::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .input-field::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .input-field::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 2px;
+  }
+
+  .input-field::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+  }
+</style>
+
+<script>
+  const textarea = document.querySelector('.input-field') as HTMLTextAreaElement;
+  
+  if (textarea) {
+    textarea.addEventListener('input', () => {
+      textarea.style.height = 'auto';
+      textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+    });
+
+    textarea.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        const sendBtn = document.querySelector('.send-btn') as HTMLButtonElement;
+        if (sendBtn && textarea.value.trim()) {
+          sendBtn.click();
+        }
+      }
+    });
+  }
+</script>

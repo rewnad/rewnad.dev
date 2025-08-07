@@ -1,5 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ChatWindow from '../../components/ChatWindow.astro';
+import ChatMessage from '../../components/ChatMessage.astro';
+import ChatInput from '../../components/ChatInput.astro';
 
 const projects = [
   {
@@ -25,43 +28,61 @@ const { id } = Astro.params;
 
 // Fallback if project is not found in props
 const currentProject = project || projects.find(p => p.id === id);
+
+// Check if this is the ai-chat project
+const isAiChat = currentProject?.id === 'ai-chat';
 ---
 
 <Layout>
-  <main>
-    <div class="container">
-      <nav class="breadcrumb">
-        <a href="/">← Back to Home</a>
-      </nav>
-      
-      <div class="project-header">
-        <div class="project-image">
-          <div class="placeholder-image" />
-        </div>
-        <div class="project-details">
-          <h1>{currentProject.title}</h1>
-          <p class="description">{currentProject.fullDescription}</p>
-          <div class="meta">
-            <div class="status">
-              <span class="label">Status:</span>
-              <span class="value">{currentProject.status}</span>
-            </div>
-            <div class="technologies">
-              <span class="label">Technologies:</span>
-              <div class="tech-list">
-                {currentProject.technologies.map((tech) => (
-                  <span class="tech-tag">{tech}</span>
-                ))}
+  {isAiChat ? (
+    <ChatWindow>
+      <div slot="messages">
+        <!-- Messages will be dynamically added here -->
+      </div>
+      <ChatInput slot="input" />
+    </ChatWindow>
+  ) : (
+    <main>
+      <div class="container">
+        <nav class="breadcrumb">
+          <a href="/">← Back to Home</a>
+        </nav>
+        
+        <div class="project-header">
+          <div class="project-image">
+            <div class="placeholder-image" />
+          </div>
+          <div class="project-details">
+            <h1>{currentProject.title}</h1>
+            <p class="description">{currentProject.fullDescription}</p>
+            <div class="meta">
+              <div class="status">
+                <span class="label">Status:</span>
+                <span class="value">{currentProject.status}</span>
+              </div>
+              <div class="technologies">
+                <span class="label">Technologies:</span>
+                <div class="tech-list">
+                  {currentProject.technologies.map((tech) => (
+                    <span class="tech-tag">{tech}</span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </main>
+    </main>
+  )}
 </Layout>
 
 <style>
+  :global(body) {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
   .container {
     max-width: 800px;
     margin: 0 auto;
