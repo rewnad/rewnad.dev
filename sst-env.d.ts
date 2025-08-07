@@ -8,6 +8,10 @@ declare module "sst" {
     "Bucket": {
       "type": "sst.cloudflare.Bucket"
     }
+    "Web": {
+      "type": "sst.cloudflare.Astro"
+      "url": string
+    }
     "Worker": {
       "type": "sst.cloudflare.Worker"
       "url": string
