@@ -1,10 +1,14 @@
 import { Resource } from "sst";
-import { Handler } from "aws-lambda";
-import { Example } from "@monorepo-template/core/example";
+import { Hono } from "hono";
 
-export const handler: Handler = async (_event) => {
-  return {
-    statusCode: 200,
-    body: `${Example.hello()} Linked to ${Resource.MyBucket.name}.`,
-  };
-};
+const app = new Hono().put("/*", async (c) => {
+  const key = crypto.randomUUID();
+  await Resource.Bucket.put(key, c.req.raw.body, {
+    httpMetadata: {
+      contentType: c.req.header("content-type"),
+    },
+  });
+  return c.text(`Object created with key: ${key}`);
+});
+
+export default app;

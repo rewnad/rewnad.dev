@@ -3,18 +3,16 @@
 export default $config({
   app(input) {
     return {
-      name: "monorepo-template",
+      name: "rewnad",
       removal: input?.stage === "production" ? "retain" : "remove",
       protect: ["production"].includes(input?.stage),
-      home: "aws",
+      home: "cloudflare",
     };
   },
   async run() {
-    const storage = await import("./infra/storage");
+    await import("./infra/storage");
     await import("./infra/api");
-
-    return {
-      MyBucket: storage.bucket.name,
-    };
+    await import("./infra/web");
+    return {};
   },
 });
